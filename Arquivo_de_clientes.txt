@@ -1,0 +1,12 @@
+Rei da identacao
+11
+10.10
+Rei da usabilidade
+200
+22.22
+Rei do Pagode
+33
+33.33
+Rei da Engenharia
+44
+44.44

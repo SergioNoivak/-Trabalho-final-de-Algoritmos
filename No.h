@@ -22,5 +22,3 @@ typedef struct No {
 	 return falha;
 }
 
-
-
