@@ -1,140 +1,159 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-//#include"Lista.h"
-//#include"Cliente.h"
-//#include"No.h"
-//#include"Persistencia.h"
-
-
-typedef struct node {
-
-	int data;
-	struct node* next;
-	struct node* prev;
-}node;
-
-void cria_lista(node* head) {
-	head = NULL;
-}
-node* insercao(node* head, node* no) {
-	//Caso lista vazia
-	if (head == NULL) {
-		no->prev = NULL;
-		no->next = NULL;
-		head = no;
-		return head;
-	}
+#include"Lista.h"
+#include"Cliente.h"
+#include"No.h"
+#include"Persistencia.h"
+#include"Cronometro.h"
+enum resultados_do_menu {
 	
+	exibir_lista_desordenada=1,
+	ORDENAR_POR_SELECTION_sem_salvar = 2,
+	ORDENAR_POR_INSERTION_sem_salvar = 3,
+	ORDENAR_POR_SELECTION_salvar= 4,
+	ORDENAR_POR_INSERTION_salvar = 5,
+	sair = 6
+};
 
-	//Caso geral
-	node* i;
-	for (i = head; i->next != NULL; i = i->next)
-		continue;
-	no->prev = i;
-	no->next = NULL;
-	i->next = no;
-	return head;
 
-}
 
-void exibe_lista(node* head) {
-	node* i = head;
-	i->prev = NULL;
-	for (i = head; i != NULL; i = i->next) {
 
-		 
-		printf(" %d ",i->data);
+int menu_() {
+
+	printf(" =========  MENU PRINCIPAL     =============    \n\n");
+	printf("          1.exibir lista atual                  \n");
+	printf("          2.ORDENAR POR SELECTION (sem salvar)  \n");
+	printf("          3.ORDENAR POR INSERTION (sem salvar)  \n");
+	printf("          4.ORDENAR POR SELECTION (salvar)      \n");
+	printf("          5.ORDENAR POR INSERTION (salvar)      \n");
+	printf("          6.sair                                \n");
 	
-
-			}
-}
-
-void exibe_lista_fim(node* head) {
-	node* i;
-	for (i = head; i->next!= NULL; i = i->next) {
-		continue;
-	}
-
-	while (i != NULL) {
-
-		printf(" %d ", i->data);
-	
-		i = i->prev;
-	}
-
+	int resultado;
+	scanf("%d", &resultado);
+	fflush(stdin);
+	getchar();
+	system("cls");
+	return resultado;
 }
 
 
 
-void swap_data(struct node* node1, struct node* node2) {
-	int temp_data = node1->data;
-	node1->data = node2->data;
-	node2->data = temp_data;
-}
 
 
-struct node* swap(struct node* node1, struct node* node2) {
-	struct node* temp;
-	temp = node1->next;
-	node1->next = node2->next;
-	node2->next = temp;
-	if (node1->next != NULL)
-		node1->next->prev = node1;
-	if (node2->next != NULL)
-		node2->next->prev = node2;
-	temp = node1->prev;
-	node1->prev = node2->prev;
-	node2->prev = temp;
-	if (node1->prev != NULL)
-		node1->prev->next = node1;
-	if (node2->prev == NULL)
-		return node2;
-	node2->prev->next = node2;
-	return node1;
-}
 int main() {
 
-	node* head=NULL;
-	cria_lista(head);
-	node* n1 = malloc(sizeof(node));
-	n1->data = 99;
-	node* n2 = malloc(sizeof(node));
-	n2->data = 9;
-	node* n3 = malloc(sizeof(node));
-	n3->data = 1;
-	node* n4 = malloc(sizeof(node));
-	n4->data = 998;
-	node* n5 = malloc(sizeof(node));
-	n5->data = 5;
-	node* n6 = malloc(sizeof(node));
-	n6->data = 198;
+		Cronometro* cronometro = malloc(sizeof(Cronometro));
+		Dados_de_arquivos* dados = malloc(sizeof(Dados_de_arquivos));
+		PERSISTENCIA_init(dados);
+		PERSISTENCIA_inicia_status_de_arquivo_fechado(dados);
+		Lista* l = PERSISTENCIA_carrega(dados);
 
-	
+		int controle_menu = -1;
+		while (controle_menu != sair) {
+
+			controle_menu = menu_();
+			if (controle_menu == sair)
+				break;
+			system("cls");
+			switch (controle_menu)
+			{
+				case exibir_lista_desordenada:
+					cronometro->tempoFinal = 0;
+					cronometro->tempoInicial = 0;
+					CRONOMETRO_acionar_cronometro(cronometro);
+					LISTA_exibe_lista(l);
+					CRONOMETRO_pausar_cronometro(cronometro);
+				    printf("\n");
+					CRONOMETRO_exibe_medicao(cronometro);
+					printf("\n");
+					system("PAUSE");
+				    system("cls");
+					break;
+
+				case ORDENAR_POR_SELECTION_sem_salvar:
+					cronometro->tempoFinal = 0;
+					cronometro->tempoInicial = 0;
+					CRONOMETRO_acionar_cronometro(cronometro);
+					ALGORITMOS_selection_sort(l);
+					CRONOMETRO_pausar_cronometro(cronometro);
+					printf("\n");
+					LISTA_exibe_lista(l);
+					printf("\n");
+					CRONOMETRO_exibe_medicao(cronometro);
+					printf("\n");
+					system("PAUSE");
+					system("cls");
+					break;
+				
+				case ORDENAR_POR_INSERTION_sem_salvar:
+					cronometro->tempoFinal = 0;
+					cronometro->tempoInicial = 0;
+					CRONOMETRO_acionar_cronometro(cronometro);
+					l->head = ALGORITMOS_insertion_sort(l->head);
+					CRONOMETRO_pausar_cronometro(cronometro);
+					LISTA_exibe_lista(l);
+					printf("\n");
+					CRONOMETRO_exibe_medicao(cronometro);
+					printf("\n");
+					system("PAUSE");
+					system("cls");
+					break;
+
+				case ORDENAR_POR_INSERTION_salvar:
+					system("cls");
+					cronometro->tempoFinal = 0;
+					cronometro->tempoInicial = 0;
+					CRONOMETRO_acionar_cronometro(cronometro);
+					l->head = ALGORITMOS_insertion_sort(l->head);
+					CRONOMETRO_pausar_cronometro(cronometro);
+					LISTA_exibe_lista(l);
+					printf("\n");
+					CRONOMETRO_exibe_medicao(cronometro);
+					printf("\n");
+					PERSISTENCIA_gravar_lista(l, dados);
+					
+					system("PAUSE");
+					system("cls");
+
+					break;
+
+			default:
+				break;
+			}
 
 
-	head = insercao(head,n1);
-	head = insercao(head,n2);
-	head = insercao(head, n3);
-	head = insercao(head, n4);
-	head = insercao(head,n5);
-	head = insercao(head, n6);
-
-	exibe_lista(head);
-	printf("\n");
-	//exibe_lista_fim(head);
-	swap(n5, n6);
-	printf("\n");
-	exibe_lista(head);
 
 
 
-	system("PAUSE");
+
+
+
+
+
+
+
+
+
+		}
+
+
+
+
+		CRONOMETRO_acionar_cronometro(cronometro);
+		ALGORITMOS_selection_sort(l);
+		CRONOMETRO_pausar_cronometro(cronometro);
+		
+		LISTA_exibe_lista(l);
+		
+		printf("\n TEMPO: %f", CRONOMETRO_get_tempo_milisegundos(cronometro));
+
+		system("PAUSE");
 
 }
-
-
-
+	
+	
+	
 
 
 //	 ///DADOS VAZIO ok

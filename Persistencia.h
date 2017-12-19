@@ -4,6 +4,8 @@
 #include"Cliente.h"
 #include"estados.h"
 #include"Algoritmos.h"
+#include"Lista.h"
+#include"No.h"
 typedef struct Dados_de_arquivos {
 
 	FILE* arquivo_clientes;
@@ -15,7 +17,7 @@ typedef struct Dados_de_arquivos {
 retorna sucesso caso o arquivo pode ser aberto
 retorna falha caso o arquivo nao pode ser aberto
 */
-int  DADOS_DE_ARQUIVO_inicia_status_de_arquivo_fechado(Dados_de_arquivos* dados) {
+int  PERSISTENCIA_inicia_status_de_arquivo_fechado(Dados_de_arquivos* dados) {
 
 	if (dados->nome_de_arquivo == NULL || strcmp(dados->nome_de_arquivo, "Arquivo_de_clientes.txt") != 0){
 		printf("Voce nao deu init no arquivo!");
@@ -32,11 +34,11 @@ int  DADOS_DE_ARQUIVO_inicia_status_de_arquivo_fechado(Dados_de_arquivos* dados)
 	return sucesso;
 }
 
-void DADOS_DE_ARQUIVO_init(Dados_de_arquivos* dados) {
+void PERSISTENCIA_init(Dados_de_arquivos* dados) {
 	strcpy(dados->nome_de_arquivo, "Arquivo_de_clientes.txt");
 }
 
-int  DADOS_DE_ARQUIVO_valida_arq_cliente(Dados_de_arquivos* dados_de_arquivo) {
+int  PERSISTENCIA_valida_arq_cliente(Dados_de_arquivos* dados_de_arquivo) {
 
 	if (dados_de_arquivo->arquivo_clientes == NULL)
 		return falha;
@@ -46,10 +48,10 @@ int  DADOS_DE_ARQUIVO_valida_arq_cliente(Dados_de_arquivos* dados_de_arquivo) {
 	retorna sucesso se o cliente foi gravado com sucesso
 	retorna falha caso contrario
 */
-int DADOS_DE_ARQUIVO_grava_cliente(Cliente* cliente_a_ser_gravado, Dados_de_arquivos* dados_de_arquivo) {
+int PERSISTENCIA_grava_cliente(Cliente* cliente_a_ser_gravado, Dados_de_arquivos* dados_de_arquivo) {
 	dados_de_arquivo->arquivo_clientes = fopen("Arquivo_de_clientes.txt", "a+");
 
-	if (DADOS_DE_ARQUIVO_valida_arq_cliente(dados_de_arquivo) == sucesso) {
+	if (PERSISTENCIA_valida_arq_cliente(dados_de_arquivo) == sucesso) {
 		fseek(dados_de_arquivo->arquivo_clientes, 0, SEEK_END);
 		fputs(cliente_a_ser_gravado->nome,dados_de_arquivo->arquivo_clientes);
 		fprintf(dados_de_arquivo->arquivo_clientes, "\n");
@@ -66,7 +68,30 @@ int DADOS_DE_ARQUIVO_grava_cliente(Cliente* cliente_a_ser_gravado, Dados_de_arqu
 }
 
 
-Lista* DADOS_DE_ARQUIVO_carrega(Dados_de_arquivos* dados_de_arquivo) {
+/**
+retorna sucesso se o cliente foi gravado com sucesso
+retorna falha caso contrario
+*/
+int PERSISTENCIA_grava_cliente_saida(Cliente* cliente_a_ser_gravado, Dados_de_arquivos* dados_de_arquivo) {
+	dados_de_arquivo->arquivo_clientes = fopen("SAIDA.txt", "a+");
+
+	if (PERSISTENCIA_valida_arq_cliente(dados_de_arquivo) == sucesso) {
+		fseek(dados_de_arquivo->arquivo_clientes, 0, SEEK_END);
+		fputs(cliente_a_ser_gravado->nome, dados_de_arquivo->arquivo_clientes);
+		fprintf(dados_de_arquivo->arquivo_clientes, "\n");
+		fprintf(dados_de_arquivo->arquivo_clientes, "%d\n", cliente_a_ser_gravado->conta);
+		fprintf(dados_de_arquivo->arquivo_clientes, "%.2lf\n", cliente_a_ser_gravado->saldo);
+		fclose(dados_de_arquivo->arquivo_clientes);
+		return sucesso;
+	}
+	else {
+		printf("Arquivo %s nao pode ser aberto\n", dados_de_arquivo->nome_de_arquivo);
+		fclose(dados_de_arquivo->arquivo_clientes);
+		return falha;
+	}
+}
+
+Lista* PERSISTENCIA_carrega(Dados_de_arquivos* dados_de_arquivo) {
 	
 	
 	dados_de_arquivo->arquivo_clientes = fopen("Arquivo_de_clientes.txt", "r");
@@ -78,9 +103,9 @@ Lista* DADOS_DE_ARQUIVO_carrega(Dados_de_arquivos* dados_de_arquivo) {
 
 	fgetpos(dados_de_arquivo->arquivo_clientes, &posicao_anterior);
 	fseek(dados_de_arquivo->arquivo_clientes, 0, SEEK_SET);
-	if (DADOS_DE_ARQUIVO_valida_arq_cliente(dados_de_arquivo) == sucesso) {
+	if (PERSISTENCIA_valida_arq_cliente(dados_de_arquivo) == sucesso) {
 		while (!feof(dados_de_arquivo->arquivo_clientes)) {
-			cliente_corrente = realloc(cliente_corrente, sizeof(Cliente));
+			cliente_corrente =(Cliente*)realloc(cliente_corrente, sizeof(Cliente));
 			//leitura dos dados de arquivo
 			fgets(cliente_corrente->nome, 200, dados_de_arquivo->arquivo_clientes);
 			fscanf(dados_de_arquivo->arquivo_clientes, "%d", &cliente_corrente->conta);
@@ -105,7 +130,13 @@ Lista* DADOS_DE_ARQUIVO_carrega(Dados_de_arquivos* dados_de_arquivo) {
 	}
 }
 
+void PERSISTENCIA_gravar_lista(Lista* l,Dados_de_arquivos* dados) {
 
+	No* i;
+	for (i = l->head; i != NULL; i=i->proximo)
+		PERSISTENCIA_grava_cliente_saida(i->cliente, dados);
+
+}
 
 
 

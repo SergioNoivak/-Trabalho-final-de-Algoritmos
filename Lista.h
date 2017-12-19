@@ -27,6 +27,8 @@ typedef struct Lista {
  }
 
 
+
+
  int LISTA_insercao(Lista *lista, Cliente *cliente) {
 	 //Caso que nao foi criada estrutura de lista
 	 if (lista == NULL) {
@@ -57,7 +59,41 @@ typedef struct Lista {
  void LISTA_exibe_lista(Lista *lista) {
 	 No* i;
 	 for (i = lista->head; i != NULL; i = i->proximo) {
+		 if (i->anterior != NULL)
+			 printf("v\n");
 		 CLIENTE_exibir(i->cliente);
+		 if (i->proximo != NULL)
+			 printf("i");
 		 printf("\n");
 	 }
  }
+
+ void __insertion_node_back(No* A, No* B,Lista* list) {
+
+	 if (A == NULL || B == NULL)
+		 return;
+
+	 No* aA = A->anterior;
+	 No* bA = A->proximo;
+	 No* aB = B->anterior;
+	 No* bB = B->proximo;
+
+	 B->proximo = A;
+	 A->anterior = B;
+
+	 B->anterior = aA;
+	 if (aA != NULL)
+		 aA->proximo = B;
+	 else
+		 list->head = B;
+
+	 if (aB != NULL)
+		 aB->proximo = bB;
+	 
+	 if (bB != NULL)
+		 bB->anterior = aB;
+	 
+ }
+ 
+ 
+

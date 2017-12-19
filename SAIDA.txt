@@ -1,48 +1,27 @@
-Rei da usabilidade
-200
-1.22
-Rei da Biblioteca Time
-200
-1.2
-Rei da Assolan
-200
-1
-Rei do Fibonacci Recursivo
-200
-0
-Rei do NullPointerException
-200
--1
-Rei do Teste de Software
-200000000
-100000000
-Rei de PESII
-200
-77
-Rei de PESI
-200
-7
-Rei da Maratona de Programacao
-33
-3
-Rei das Novelas de Cavalaria
-44
-4
-Rei dos game of Trones
-5
-1.00
-Eta Bruxinha Rabuda Me chama de Harry porra
-1
-0
 Rei do NullPointerException
 200
 -1.00
+Rei do NullPointerException
+200
+-1.00
+Rei do Fibonacci Recursivo
+200
+0.00
+Eta Bruxinha Rabuda Me chama de Harry porra
+1
+0.00
 Eta Bruxinha Rabuda Me chama de Harry porra
 1
 0.00
 Rei do Fibonacci Recursivo
 200
 0.00
+Rei da Assolan
+200
+1.00
+Rei dos game of Trones
+5
+1.00
 Rei dos game of Trones
 5
 1.00
@@ -52,21 +31,42 @@ Rei da Assolan
 Rei da Biblioteca Time
 200
 1.20
+Rei da Biblioteca Time
+200
+1.20
+Rei da usabilidade
+200
+1.22
 Rei da usabilidade
 200
 1.22
 Rei da Maratona de Programacao
 33
 3.00
+Rei da Maratona de Programacao
+33
+3.00
+Rei das Novelas de Cavalaria
+44
+4.00
 Rei das Novelas de Cavalaria
 44
 4.00
 Rei de PESI
 200
 7.00
+Rei de PESI
+200
+7.00
 Rei de PESII
 200
 77.00
+Rei de PESII
+200
+77.00
+Rei do Teste de Software
+200000000
+100000000.00
 Rei do Teste de Software
 200000000
 100000000.00
