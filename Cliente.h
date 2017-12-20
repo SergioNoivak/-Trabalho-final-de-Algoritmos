@@ -7,6 +7,8 @@ typedef struct Cliente {
 	double saldo;
 }Cliente;
 
+
+
 void CLIENTE_exibir(Cliente *cliente) {
 	if (cliente == NULL)
 		return;

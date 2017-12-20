@@ -6,6 +6,7 @@
 #include"estados.h"
 #include"Lista.h"
 #include"No.h"
+
 char* ALGORITMOS_remover_no_fim(char* string) {
 	string[strlen(string) - 1] = '\0';	
 }
@@ -30,7 +31,7 @@ void ALGORITMOS_selection_sort(Lista* lista) {
 	No* i = NULL, *j = NULL, *min = NULL, *aux = NULL;
 
 	if (lista->head->proximo == NULL) {
-		printf("Head da lista eh NULL");
+		printf("l->head da lista eh NULL");
 		return;
 	}
 

@@ -5,7 +5,7 @@
 #include"Cliente.h"
 #include"estados.h"
 typedef struct Lista {
-	struct No*head;
+   No* head;
 }Lista;
 
 
@@ -68,7 +68,7 @@ typedef struct Lista {
 	 }
  }
 
- void __insertion_node_back(No* A, No* B,Lista* list) {
+ void __insertion_No_back(No* A, No* B,Lista* list) {
 
 	 if (A == NULL || B == NULL)
 		 return;

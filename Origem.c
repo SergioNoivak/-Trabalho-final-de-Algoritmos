@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+
 #include"Lista.h"
 #include"Cliente.h"
 #include"No.h"
@@ -9,8 +10,8 @@
 enum resultados_do_menu {
 	
 	exibir_lista_desordenada=1,
-	ORDENAR_POR_SELECTION_sem_salvar = 2,
-	ORDENAR_POR_INSERTION_sem_salvar = 3,
+	ORDENAR_POR_SELECTION_sem_salvar_no_arquivo = 2,
+	ORDENAR_POR_INSERTION_sem_salvar_no_arquivo = 3,
 	ORDENAR_POR_SELECTION_salvar= 4,
 	ORDENAR_POR_INSERTION_salvar = 5,
 	sair = 6
@@ -38,7 +39,38 @@ int menu_() {
 }
 
 
-
+void ALGORITMOS_selection(Lista* l)
+{
+	No *h = l->head, *i, *j, *proximo_i;
+	No *min;
+	for (i = h; i != NULL && i->proximo != NULL; i = i->proximo)
+	{
+		min = i;
+		for (j = i->proximo; j != NULL; j = j->proximo)
+		{	
+			if (j->cliente->saldo < min->cliente->saldo)
+				min = j;
+		}
+		if (min != i)
+		{
+			static Cliente temp;
+			temp.conta = min->cliente->conta;
+			temp.saldo = min->cliente->saldo;
+			strcpy(temp.nome, min->cliente->nome);
+			
+			
+			min->cliente->conta = i->cliente->conta;
+			min->cliente->saldo = i->cliente->saldo;
+			strcpy(min->cliente->nome, i->cliente->nome);
+			
+			
+			i->cliente->conta = temp.conta;
+			i->cliente->saldo = temp.saldo;
+			strcpy(i->cliente->nome , temp.nome);
+		}
+	}
+	l->head = h;
+}
 
 
 int main() {
@@ -69,13 +101,14 @@ int main() {
 					printf("\n");
 					system("PAUSE");
 				    system("cls");
+					
 					break;
 
-				case ORDENAR_POR_SELECTION_sem_salvar:
+				case ORDENAR_POR_SELECTION_sem_salvar_no_arquivo:
 					cronometro->tempoFinal = 0;
 					cronometro->tempoInicial = 0;
 					CRONOMETRO_acionar_cronometro(cronometro);
-					ALGORITMOS_selection_sort(l);
+					ALGORITMOS_selection(l);
 					CRONOMETRO_pausar_cronometro(cronometro);
 					printf("\n");
 					LISTA_exibe_lista(l);
@@ -86,7 +119,7 @@ int main() {
 					system("cls");
 					break;
 				
-				case ORDENAR_POR_INSERTION_sem_salvar:
+				case ORDENAR_POR_INSERTION_sem_salvar_no_arquivo:
 					cronometro->tempoFinal = 0;
 					cronometro->tempoInicial = 0;
 					CRONOMETRO_acionar_cronometro(cronometro);
@@ -99,6 +132,23 @@ int main() {
 					system("PAUSE");
 					system("cls");
 					break;
+
+				case ORDENAR_POR_SELECTION_salvar:
+					cronometro->tempoFinal = 0;
+					cronometro->tempoInicial = 0;
+					CRONOMETRO_acionar_cronometro(cronometro);
+					ALGORITMOS_selection(l);
+					CRONOMETRO_pausar_cronometro(cronometro);
+					printf("\n");
+					LISTA_exibe_lista(l);
+					printf("\n");
+					CRONOMETRO_exibe_medicao(cronometro);
+					printf("\n");
+					PERSISTENCIA_gravar_lista(l, dados);
+					system("PAUSE");
+					system("cls"); 
+					break;
+
 
 				case ORDENAR_POR_INSERTION_salvar:
 					system("cls");
@@ -112,43 +162,21 @@ int main() {
 					CRONOMETRO_exibe_medicao(cronometro);
 					printf("\n");
 					PERSISTENCIA_gravar_lista(l, dados);
-					
 					system("PAUSE");
 					system("cls");
-
 					break;
 
+				case sair:
+					system("cls");
+					printf("SAINDO DO PROGRAMA");
+					system("exit");
+					break;
 			default:
 				break;
 			}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 		}
 
-
-
-
-		CRONOMETRO_acionar_cronometro(cronometro);
-		ALGORITMOS_selection_sort(l);
-		CRONOMETRO_pausar_cronometro(cronometro);
-		
-		LISTA_exibe_lista(l);
-		
-		printf("\n TEMPO: %f", CRONOMETRO_get_tempo_milisegundos(cronometro));
-
-		system("PAUSE");
 
 }
 	

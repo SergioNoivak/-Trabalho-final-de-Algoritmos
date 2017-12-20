@@ -1,72 +1,33 @@
-Rei do NullPointerException
+Rei do fibonacci
+200
+-21.55
+Rei do f
+200
+-21.00
+Rei do z
+200
+-12.00
+Rei do omega
+200
+-5.00
+Rei do y
+200
+-1.20
+Rei do x
+200
+-1.20
+Rei do k
 200
 -1.00
 Rei do NullPointerException
 200
 -1.00
-Rei do Fibonacci Recursivo
+Rei do w
 200
-0.00
-Eta Bruxinha Rabuda Me chama de Harry porra
-1
-0.00
-Eta Bruxinha Rabuda Me chama de Harry porra
-1
-0.00
-Rei do Fibonacci Recursivo
+2.00
+Rei do pi
 200
-0.00
-Rei da Assolan
+512.00
+Rei do warcraft
 200
-1.00
-Rei dos game of Trones
-5
-1.00
-Rei dos game of Trones
-5
-1.00
-Rei da Assolan
-200
-1.00
-Rei da Biblioteca Time
-200
-1.20
-Rei da Biblioteca Time
-200
-1.20
-Rei da usabilidade
-200
-1.22
-Rei da usabilidade
-200
-1.22
-Rei da Maratona de Programacao
-33
-3.00
-Rei da Maratona de Programacao
-33
-3.00
-Rei das Novelas de Cavalaria
-44
-4.00
-Rei das Novelas de Cavalaria
-44
-4.00
-Rei de PESI
-200
-7.00
-Rei de PESI
-200
-7.00
-Rei de PESII
-200
-77.00
-Rei de PESII
-200
-77.00
-Rei do Teste de Software
-200000000
-100000000.00
-Rei do Teste de Software
-200000000
-100000000.00
+555.00

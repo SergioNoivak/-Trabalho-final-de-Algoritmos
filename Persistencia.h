@@ -49,7 +49,7 @@ int  PERSISTENCIA_valida_arq_cliente(Dados_de_arquivos* dados_de_arquivo) {
 	retorna falha caso contrario
 */
 int PERSISTENCIA_grava_cliente(Cliente* cliente_a_ser_gravado, Dados_de_arquivos* dados_de_arquivo) {
-	dados_de_arquivo->arquivo_clientes = fopen("Arquivo_de_clientes.txt", "a+");
+	dados_de_arquivo->arquivo_clientes = fopen("SAIDA.txt", "a+");
 
 	if (PERSISTENCIA_valida_arq_cliente(dados_de_arquivo) == sucesso) {
 		fseek(dados_de_arquivo->arquivo_clientes, 0, SEEK_END);
@@ -67,29 +67,6 @@ int PERSISTENCIA_grava_cliente(Cliente* cliente_a_ser_gravado, Dados_de_arquivos
 	}
 }
 
-
-/**
-retorna sucesso se o cliente foi gravado com sucesso
-retorna falha caso contrario
-*/
-int PERSISTENCIA_grava_cliente_saida(Cliente* cliente_a_ser_gravado, Dados_de_arquivos* dados_de_arquivo) {
-	dados_de_arquivo->arquivo_clientes = fopen("SAIDA.txt", "a+");
-
-	if (PERSISTENCIA_valida_arq_cliente(dados_de_arquivo) == sucesso) {
-		fseek(dados_de_arquivo->arquivo_clientes, 0, SEEK_END);
-		fputs(cliente_a_ser_gravado->nome, dados_de_arquivo->arquivo_clientes);
-		fprintf(dados_de_arquivo->arquivo_clientes, "\n");
-		fprintf(dados_de_arquivo->arquivo_clientes, "%d\n", cliente_a_ser_gravado->conta);
-		fprintf(dados_de_arquivo->arquivo_clientes, "%.2lf\n", cliente_a_ser_gravado->saldo);
-		fclose(dados_de_arquivo->arquivo_clientes);
-		return sucesso;
-	}
-	else {
-		printf("Arquivo %s nao pode ser aberto\n", dados_de_arquivo->nome_de_arquivo);
-		fclose(dados_de_arquivo->arquivo_clientes);
-		return falha;
-	}
-}
 
 Lista* PERSISTENCIA_carrega(Dados_de_arquivos* dados_de_arquivo) {
 	
@@ -133,8 +110,12 @@ Lista* PERSISTENCIA_carrega(Dados_de_arquivos* dados_de_arquivo) {
 void PERSISTENCIA_gravar_lista(Lista* l,Dados_de_arquivos* dados) {
 
 	No* i;
+	fclose(dados->arquivo_clientes);
+	fopen("SAIDA.txt", "w");
+	fclose(dados->arquivo_clientes);
+
 	for (i = l->head; i != NULL; i=i->proximo)
-		PERSISTENCIA_grava_cliente_saida(i->cliente, dados);
+		PERSISTENCIA_grava_cliente(i->cliente, dados);
 
 }
 
